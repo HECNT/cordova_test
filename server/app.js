@@ -1,6 +1,8 @@
 var express = require('express')
 var app = express()
-var mysql = require('./models/main')
+//var mysql = require('./models/main')
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('test');
 
 // Add headers
 app.use(function (req, res, next) {
@@ -43,7 +45,27 @@ app.get('/test', function(req, res){
 		})
 })
 
-app.listen(3000, port)
+app.get('/sqlite', data)
+
+function data(req, res) {
+	db.serialize(function() {
+		db.run("CREATE TABLE lorem (info TEXT)");
+	   
+		var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
+		for (var i = 0; i < 10; i++) {
+			stmt.run("Ipsum " + i);
+		}
+		stmt.finalize();
+	   
+		db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
+			console.log(row.id + ": " + row.info);
+		});
+	  });
+	   
+	  db.close();
+}
+
+app.listen(3002, port)
 
 function port() {
 	console.log('3000')

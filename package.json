@@ -5,13 +5,15 @@
     "description": "A sample Apache Cordova application that responds to the deviceready event.",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build-js": "watchify www/controllers/inicio.js -o www/controllers/build.js"
     },
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-browser": "^4.1.0",
-        "cordova-plugin-whitelist": "^1.3.2"
+        "cordova-plugin-whitelist": "^1.3.2",
+        "watchify": "^3.9.0"
     },
     "cordova": {
         "plugins": {
